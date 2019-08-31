@@ -1,0 +1,2 @@
+# localStorageChecker
+ローカルストレージが使えるかどうかを調べる
