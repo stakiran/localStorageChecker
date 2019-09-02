@@ -9,7 +9,7 @@ https://stakiran.github.io/localStorageChecker/
 - ブラウザ閉じた後、また読み込めるか
 
 ## todo
-- index.html
+- [x] index.html
 - 書き込み読み込み判定処理 ランダム文字(AAAA とかわかりやすいの？ or 10000wordから抜き出すか)が読み込まれるか見てみて、にする
 - 設定方法解説
   - ff
