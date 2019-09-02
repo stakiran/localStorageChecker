@@ -35,14 +35,39 @@ function generateRandomString(){
     return retStr;
 }
 
+function writeMessage(msg){
+    const selector = '#messages';
+    const html = `<p>${msg}</p>`;
+    $('#messages').append(html);
+}
 
 $(function(){
+    let ls = window.localStorage;
+    if(ls == null){
+        writeMessage('[Failed] ローカルストレージは無効です。（ブラウザの設定により無効または不許可になっている等が考えられます）');
+        return;
+    }
+
     const ROOTKEY = 'localStorageChecker';
     let localstorageManager = new LocalStorageManager(window.localStorage);
 
     const setteeData = generateRandomString();
 
-    // Firefox で不許可にした場合、window.localStorage ← これが null になる
     const gotData = localstorageManager.getItem(ROOTKEY);
-    localstorageManager.setItem(ROOTKEY, setteeData);
+    if(gotData){
+        writeMessage(`[OK] 読み込まれたデータは ${gotData} です。`);
+    }
+
+    try{
+        localstorageManager.setItem(ROOTKEY, setteeData);
+    }catch(e){
+        writeMessage('[Failed] ローカルストレージのデータの書き込みに失敗しました。（空き容量が足らないか、Safari ブラウザでプライベートモードになっているか等が考えられます）');
+    }
+    writeMessage(`[OK] 書き込まれたデータは ${setteeData} です。`);
+
+    writeMessage(`指示(1) このページをリロードして、データ ${setteeData} が読み込まれることを確認してください。`);
+
+    writeMessage(`指示(2) ブラウザを再起動して、データ ${setteeData} が読み込まれることを確認してください。`);
+
+    writeMessage(`指示 (1) (2) を行っても読み込まれない場合、ブラウザの設定により「ブラウザ終了時にデータを削除する」または「普段はデータを保存しないが許可サイトに限りブラウザ終了時までは保存する」になっている等が考えられます。`);
 });
